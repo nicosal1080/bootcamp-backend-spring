@@ -22,4 +22,30 @@ public class EstudianteService {
 
         return estudiantes;
     }
+
+    public void createEstudiante(Estudiante e) {
+        // logica ...
+        System.out.println("service create estudiante entered");
+        estudianteRepository.createEstudiante(e);
+        System.out.println("service create estudiante exited");
+    }
+
+    public void deleteEstudiante(Long estudianteId) {
+        // check si id existe, si no imprimimos Warining
+        boolean existe = false;
+
+        for (Estudiante e : getEstudiantes()) {
+            if(e.getId().equals(estudianteId)) {
+                existe = true;
+                break;
+            }
+        }
+
+        if(!existe) {
+            System.out.println("WARNING: el estudiante con ese id no existe");
+            return;
+        }
+
+        estudianteRepository.deleteEstudiante(estudianteId);
+    }
 }

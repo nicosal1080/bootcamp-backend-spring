@@ -1,8 +1,7 @@
 package com.bootcamp.estudiante;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,4 +19,20 @@ public class EstudianteController {
     public List<Estudiante> getEstudiantes() {
         return estudianteService.getEstudiantes();
     }
+
+    @PostMapping("/crear-estudiante")
+    public void createEstudiante(@RequestBody Estudiante e) {
+        System.out.println("controller create estudiante entered");
+        estudianteService.createEstudiante(e);
+        System.out.println("controller create estudiante exited");
+    }
+
+
+    @DeleteMapping("/borrar-estudiante/{id}")
+    public void deleteEstudiante(@PathVariable("id") Long estudianteId) {
+        estudianteService.deleteEstudiante(estudianteId);
+    }
+
+    // PUT
+
 }
