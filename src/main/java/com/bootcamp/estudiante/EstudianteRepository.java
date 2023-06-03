@@ -13,10 +13,10 @@ public class EstudianteRepository {
 
     public EstudianteRepository() {
         this.estudiantes = new ArrayList<Estudiante>();
-                estudiantes.add(new Estudiante(1L, "Fulano"));
-                estudiantes.add(new Estudiante(2L, "Pepe"));
-                estudiantes.add(new Estudiante(3L, "Maria"));
-                estudiantes.add(new Estudiante(4L, "Ernesto"));
+        estudiantes.add(new Estudiante(1L, "Fulano"));
+        estudiantes.add(new Estudiante(2L, "Pepe"));
+        estudiantes.add(new Estudiante(3L, "Maria"));
+        estudiantes.add(new Estudiante(4L, "Ernesto"));
 
     }
 
@@ -39,5 +39,14 @@ public class EstudianteRepository {
 //        }
 
         estudiantes.removeIf(es -> es.getId().equals(estudianteId));
+    }
+
+    public void updateEstudiante(Long id, Estudiante estudianteAActualizar) {
+        for (Estudiante e : estudiantes) {
+            if(e.getId().equals(id)) {
+                e.setId(estudianteAActualizar.getId());
+                e.setNombre(estudianteAActualizar.getNombre());
+            }
+        }
     }
 }
