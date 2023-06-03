@@ -21,6 +21,11 @@ public class EstudianteController {
         return estudianteService.getEstudiantes();
     }
 
+    @GetMapping("{id}")
+    public Estudiante getEstudiante(@PathVariable Long id) {
+        return estudianteService.getEstudiante(id);
+    }
+
     @PostMapping
     public void createEstudiante(@RequestBody Estudiante e) {
         System.out.println("controller create estudiante entered");

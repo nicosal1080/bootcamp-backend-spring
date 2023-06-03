@@ -43,10 +43,24 @@ public class EstudianteRepository {
 
     public void updateEstudiante(Long id, Estudiante estudianteAActualizar) {
         for (Estudiante e : estudiantes) {
-            if(e.getId().equals(id)) {
+            if (e.getId().equals(id)) {
                 e.setId(estudianteAActualizar.getId());
                 e.setNombre(estudianteAActualizar.getNombre());
             }
         }
+    }
+
+    public Estudiante getEstudiante(Long id) {
+//        for (Estudiante e : estudiantes) {
+//            if(e.getId().equals(id)) {
+//                return e;
+//            }
+//        }
+//
+//        throw new IllegalStateException("no se encontró el estudiante con ese id");
+
+
+        return estudiantes.stream().filter(e -> e.getId().equals(id)).findFirst()
+                .orElseThrow(() -> new IllegalStateException("no se encontró el estudiante con ese id"));
     }
 }
