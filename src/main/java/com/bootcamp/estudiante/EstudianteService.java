@@ -17,8 +17,8 @@ public class EstudianteService {
         this.estudianteRepository = estudianteRepository;
     }
 
-    public List<Estudiante> getEstudiantes() {
-        List<Estudiante> estudiantes = estudianteRepositoryMentiras.getEstudiantes();
+    public List<Estudiante> getAllEstudiantes() {
+        List<Estudiante> estudiantes = estudianteRepository.findAll();
         // logica de negocio
 
         return estudiantes;
@@ -26,27 +26,26 @@ public class EstudianteService {
 
     public void createEstudiante(Estudiante e) {
         // logica ...
-        System.out.println("service create estudiante entered");
+
         estudianteRepository.save(e);
-        System.out.println("service create estudiante exited");
     }
 
     public void deleteEstudiante(Long estudianteId) {
         // check si id existe, si no imprimimos Warining
-        boolean existe = getEstudiantes().stream().anyMatch(e -> e.getId().equals(estudianteId));
+        boolean existe = getAllEstudiantes().stream().anyMatch(e -> e.getId().equals(estudianteId));
 
         if(!existe) {
             System.out.println("WARNING: el estudiante con ese id no existe");
             return;
         }
 
-        estudianteRepositoryMentiras.deleteEstudiante(estudianteId);
+        estudianteRepository.deleteById(estudianteId);
     }
 
     public void updateEstudiante(Long id, Estudiante estudianteAActualizar) {
         // check si id existe, si no imprimimos Warining
 
-        boolean existe = getEstudiantes().stream().anyMatch(e -> e.getId().equals(id));
+        boolean existe = getAllEstudiantes().stream().anyMatch(e -> e.getId().equals(id));
 
         if(!existe) {
             System.out.println("WARNING: el estudiante con ese id no existe");

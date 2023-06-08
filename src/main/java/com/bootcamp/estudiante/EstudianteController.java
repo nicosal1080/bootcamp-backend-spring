@@ -18,7 +18,7 @@ public class EstudianteController {
 
     @GetMapping
     public List<Estudiante> getEstudiantes() {
-        return estudianteService.getEstudiantes();
+        return estudianteService.getAllEstudiantes();
     }
 
     @GetMapping("{id}")
