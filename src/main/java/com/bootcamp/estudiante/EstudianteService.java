@@ -1,7 +1,6 @@
 package com.bootcamp.estudiante;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,15 +8,17 @@ import java.util.List;
 @Service
 public class EstudianteService {
 
+    private EstudianteRepositoryMentiras estudianteRepositoryMentiras;
     private EstudianteRepository estudianteRepository;
 
     @Autowired
-    public EstudianteService(EstudianteRepository estudianteRepository) {
+    public EstudianteService(EstudianteRepositoryMentiras estudianteRepositoryMentiras, EstudianteRepository estudianteRepository) {
+        this.estudianteRepositoryMentiras = estudianteRepositoryMentiras;
         this.estudianteRepository = estudianteRepository;
     }
 
     public List<Estudiante> getEstudiantes() {
-        List<Estudiante> estudiantes = estudianteRepository.getEstudiantes();
+        List<Estudiante> estudiantes = estudianteRepositoryMentiras.getEstudiantes();
         // logica de negocio
 
         return estudiantes;
@@ -26,40 +27,25 @@ public class EstudianteService {
     public void createEstudiante(Estudiante e) {
         // logica ...
         System.out.println("service create estudiante entered");
-        estudianteRepository.createEstudiante(e);
+        estudianteRepository.save(e);
         System.out.println("service create estudiante exited");
     }
 
     public void deleteEstudiante(Long estudianteId) {
         // check si id existe, si no imprimimos Warining
-        boolean existe = false;
-
-        for (Estudiante e : getEstudiantes()) {
-            if(e.getId().equals(estudianteId)) {
-                existe = true;
-                break;
-            }
-        }
+        boolean existe = getEstudiantes().stream().anyMatch(e -> e.getId().equals(estudianteId));
 
         if(!existe) {
             System.out.println("WARNING: el estudiante con ese id no existe");
             return;
         }
 
-        estudianteRepository.deleteEstudiante(estudianteId);
+        estudianteRepositoryMentiras.deleteEstudiante(estudianteId);
     }
 
     public void updateEstudiante(Long id, Estudiante estudianteAActualizar) {
         // check si id existe, si no imprimimos Warining
-//        boolean existe = false;
-//
-//        for (Estudiante e : getEstudiantes()) {
-//            if(e.getId().equals(id)) {
-//                existe = true;
-//                break;
-//            }
-//        }
-//
+
         boolean existe = getEstudiantes().stream().anyMatch(e -> e.getId().equals(id));
 
         if(!existe) {
@@ -67,10 +53,10 @@ public class EstudianteService {
             return;
         }
 
-        estudianteRepository.updateEstudiante(id, estudianteAActualizar);
+        estudianteRepositoryMentiras.updateEstudiante(id, estudianteAActualizar);
     }
 
     public Estudiante getEstudiante(Long id) {
-        return estudianteRepository.getEstudiante(id);
+        return estudianteRepositoryMentiras.getEstudiante(id);
     }
 }
