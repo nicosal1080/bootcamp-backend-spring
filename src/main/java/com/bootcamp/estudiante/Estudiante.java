@@ -1,9 +1,6 @@
 package com.bootcamp.estudiante;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -14,6 +11,14 @@ public class Estudiante {
 
     @Id
     @Column(name = "id_estudiante")
+    @SequenceGenerator(
+            sequenceName = "sequence_estudiante",
+            name = "sequence_estudiante"
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "sequence_estudiante"
+    )
     private Long id;
 
     @Column(name = "primer_nombre", length = 300, nullable = false)
