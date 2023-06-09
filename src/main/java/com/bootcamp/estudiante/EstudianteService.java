@@ -21,13 +21,21 @@ public class EstudianteService {
 
     public List<Estudiante> getAllEstudiantes() {
         List<Estudiante> estudiantes = estudianteRepository.findAll();
-        // logica de negocio
 
         return estudiantes;
     }
 
     public void createEstudiante(Estudiante e) {
-        // logica ...
+        // check si el email es valido
+        if(!checkValidezEmail(e.getEmail())) {
+            throw new IllegalArgumentException("Email " + e.getEmail() + " no es valido");
+        }
+
+        // check si el email ya existe
+        boolean emailExiste = estudianteRepository.existsByEmail(e.getEmail());
+        if (emailExiste) {
+            throw new IllegalArgumentException("Email " + e.getEmail() + " ya esta registrado");
+        }
 
         estudianteRepository.save(e);
     }
@@ -57,7 +65,7 @@ public class EstudianteService {
         // check si el email que se quiere actualizar ya existe
         boolean emailExiste = estudianteRepository.existsByEmailAndIdIsNot(estudianteAActualizar.getEmail(), estudianteExistente.getId());
         if (emailExiste) {
-            throw new IllegalArgumentException("email " + estudianteAActualizar.getEmail() + " ya esta registrado");
+            throw new IllegalArgumentException("Email " + estudianteAActualizar.getEmail() + " ya esta registrado");
         }
 
         // Actualizar estudiante
@@ -75,7 +83,7 @@ public class EstudianteService {
         return estudianteRepositoryMentiras.getEstudiante(id);
     }
 
-    boolean checkValidezEmail(String email) {
+    private boolean checkValidezEmail(String email) {
         return Pattern.compile(
                 "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
                 Pattern.CASE_INSENSITIVE
