@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.regex.Pattern;
 
 @Service
 public class EstudianteService {
@@ -34,7 +36,7 @@ public class EstudianteService {
         // check si id existe, si no imprimimos Warining
         boolean existe = getAllEstudiantes().stream().anyMatch(e -> e.getId().equals(estudianteId));
 
-        if(!existe) {
+        if (!existe) {
             System.out.println("WARNING: el estudiante con ese id no existe");
             return;
         }
@@ -43,19 +45,40 @@ public class EstudianteService {
     }
 
     public void updateEstudiante(Long id, Estudiante estudianteAActualizar) {
-        // check si id existe, si no imprimimos Warining
+        // check si estudiante con ese id existe, si no botamos un Error
+        Estudiante estudianteExistente = estudianteRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Estudiante con ese id no existe, id: " + id));
 
-        boolean existe = getAllEstudiantes().stream().anyMatch(e -> e.getId().equals(id));
-
-        if(!existe) {
-            System.out.println("WARNING: el estudiante con ese id no existe");
-            return;
+        // check si el email es valido
+        if(!checkValidezEmail(estudianteAActualizar.getEmail())) {
+            throw new IllegalArgumentException("Email " + estudianteAActualizar.getEmail() + " no es valido");
         }
 
-        estudianteRepositoryMentiras.updateEstudiante(id, estudianteAActualizar);
+        // check si el email que se quiere actualizar ya existe
+        boolean emailExiste = estudianteRepository.existsByEmailAndIdIsNot(estudianteAActualizar.getEmail(), estudianteExistente.getId());
+        if (emailExiste) {
+            throw new IllegalArgumentException("email " + estudianteAActualizar.getEmail() + " ya esta registrado");
+        }
+
+        // Actualizar estudiante
+        estudianteExistente.setPrimerNombre(estudianteAActualizar.getPrimerNombre());
+        estudianteExistente.setSegundoNombre(estudianteAActualizar.getSegundoNombre());
+        estudianteExistente.setPrimerApellido(estudianteAActualizar.getPrimerApellido());
+        estudianteExistente.setSegundoApellido(estudianteAActualizar.getSegundoApellido());
+        estudianteExistente.setFechaNacimiento(estudianteAActualizar.getFechaNacimiento());
+        estudianteExistente.setEmail(estudianteAActualizar.getEmail());
+
+        estudianteRepository.save(estudianteExistente);
     }
 
     public Estudiante getEstudiante(Long id) {
         return estudianteRepositoryMentiras.getEstudiante(id);
+    }
+
+    boolean checkValidezEmail(String email) {
+        return Pattern.compile(
+                "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+                Pattern.CASE_INSENSITIVE
+        ).asPredicate().test(email);
     }
 }
