@@ -17,7 +17,14 @@ public class EstudianteController {
     }
 
     @GetMapping
-    public List<Estudiante> getEstudiantes() {
+    public List<Estudiante> getEstudiantes(
+            @RequestParam(value = "primerNombre", required = false) String primerNombre,
+            @RequestParam(value = "primerApellido", required = false) String primerApellido
+    ) {
+        if(primerNombre != null || primerApellido != null){
+            return estudianteService.getEstudiantesByPrimerNombreOrPrimerApellido(primerNombre, primerApellido);
+        }
+
         return estudianteService.getAllEstudiantes();
     }
 

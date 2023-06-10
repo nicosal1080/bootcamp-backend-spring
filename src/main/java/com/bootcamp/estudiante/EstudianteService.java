@@ -10,17 +10,21 @@ import java.util.regex.Pattern;
 @Service
 public class EstudianteService {
 
-    private EstudianteRepositoryMentiras estudianteRepositoryMentiras;
     private EstudianteRepository estudianteRepository;
 
     @Autowired
-    public EstudianteService(EstudianteRepositoryMentiras estudianteRepositoryMentiras, EstudianteRepository estudianteRepository) {
-        this.estudianteRepositoryMentiras = estudianteRepositoryMentiras;
+    public EstudianteService(EstudianteRepository estudianteRepository) {
         this.estudianteRepository = estudianteRepository;
     }
 
     public List<Estudiante> getAllEstudiantes() {
         List<Estudiante> estudiantes = estudianteRepository.findAll();
+
+        return estudiantes;
+    }
+
+    public List<Estudiante> getEstudiantesByPrimerNombreOrPrimerApellido(String primerNombre, String primerApellido) {
+        List<Estudiante> estudiantes = estudianteRepository.findEstudianteByPrimerNombreOrPrimerApellido(primerNombre, primerApellido);
 
         return estudiantes;
     }
