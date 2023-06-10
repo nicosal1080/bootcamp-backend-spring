@@ -41,18 +41,17 @@ public class EstudianteService {
     }
 
     public void deleteEstudiante(Long estudianteId) {
-        // check si id existe, si no imprimimos Warining
-        boolean existe = getAllEstudiantes().stream().anyMatch(e -> e.getId().equals(estudianteId));
+        // check si id existe, si no botamos exception
+        boolean estudianteExiste = estudianteRepository.existsById(estudianteId);
 
-        if (!existe) {
-            System.out.println("WARNING: el estudiante con ese id no existe");
-            return;
+        if (!estudianteExiste) {
+            throw new NoSuchElementException("Estudiante con id " + estudianteId + " no existe");
         }
 
         estudianteRepository.deleteById(estudianteId);
     }
 
-    public void updateEstudiante(Long id, Estudiante estudianteAActualizar) {
+    public Estudiante updateEstudiante(Long id, Estudiante estudianteAActualizar) {
         // check si estudiante con ese id existe, si no botamos un Error
         Estudiante estudianteExistente = estudianteRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Estudiante con ese id no existe, id: " + id));
@@ -76,11 +75,12 @@ public class EstudianteService {
         estudianteExistente.setFechaNacimiento(estudianteAActualizar.getFechaNacimiento());
         estudianteExistente.setEmail(estudianteAActualizar.getEmail());
 
-        estudianteRepository.save(estudianteExistente);
+        return estudianteRepository.save(estudianteExistente);
     }
 
     public Estudiante getEstudiante(Long id) {
-        return estudianteRepositoryMentiras.getEstudiante(id);
+        return estudianteRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Estudiante con id " + id + " no existe"));
     }
 
     private boolean checkValidezEmail(String email) {

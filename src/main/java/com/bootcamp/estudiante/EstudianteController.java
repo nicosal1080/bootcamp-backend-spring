@@ -40,7 +40,7 @@ public class EstudianteController {
     }
 
     @PutMapping("{id}")
-    public void updateEstudiante(@PathVariable("id") Long estudianteId, @RequestBody Estudiante estudiante ) {
-        estudianteService.updateEstudiante(estudianteId, estudiante);
+    public Estudiante updateEstudiante(@PathVariable("id") Long estudianteId, @RequestBody Estudiante estudiante ) {
+        return estudianteService.updateEstudiante(estudianteId, estudiante);
     }
 }
