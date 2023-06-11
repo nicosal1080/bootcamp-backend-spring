@@ -1,6 +1,7 @@
 package com.bootcamp.estudiante;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,5 +13,10 @@ public interface EstudianteRepository extends JpaRepository<Estudiante,Long> {
 
     boolean existsByEmail(String email);
 
+    // consulta derivada
+//    List<Estudiante> findEstudianteByPrimerNombreOrPrimerApellido(String primerNombre, String primerApellido);
+
+    // consulta con JPQL
+    @Query("select e from Estudiante e where e.primerNombre = ?1 or e.primerApellido = ?2")
     List<Estudiante> findEstudianteByPrimerNombreOrPrimerApellido(String primerNombre, String primerApellido);
 }
