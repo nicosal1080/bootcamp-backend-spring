@@ -2,11 +2,13 @@ package com.bootcamp.estudiante;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
+@Transactional
 @Service
 public class EstudianteService {
 
@@ -17,12 +19,14 @@ public class EstudianteService {
         this.estudianteRepository = estudianteRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<Estudiante> getAllEstudiantes() {
         List<Estudiante> estudiantes = estudianteRepository.findAll();
 
         return estudiantes;
     }
 
+    @Transactional(readOnly = true)
     public List<Estudiante> getEstudiantesByPrimerNombreOrPrimerApellido(String primerNombre, String primerApellido) {
         List<Estudiante> estudiantes = estudianteRepository.findEstudianteByPrimerNombreOrPrimerApellido(primerNombre, primerApellido);
 
@@ -60,6 +64,13 @@ public class EstudianteService {
         Estudiante estudianteExistente = estudianteRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Estudiante con ese id no existe, id: " + id));
 
+        // Actualizar estudiante
+        estudianteExistente.setPrimerNombre(estudianteAActualizar.getPrimerNombre());
+        estudianteExistente.setSegundoNombre(estudianteAActualizar.getSegundoNombre());
+        estudianteExistente.setPrimerApellido(estudianteAActualizar.getPrimerApellido());
+        estudianteExistente.setSegundoApellido(estudianteAActualizar.getSegundoApellido());
+        estudianteExistente.setFechaNacimiento(estudianteAActualizar.getFechaNacimiento());
+
         // check si el email es valido
         if(!checkValidezEmail(estudianteAActualizar.getEmail())) {
             throw new IllegalArgumentException("Email " + estudianteAActualizar.getEmail() + " no es valido");
@@ -71,17 +82,13 @@ public class EstudianteService {
             throw new IllegalArgumentException("Email " + estudianteAActualizar.getEmail() + " ya esta registrado");
         }
 
-        // Actualizar estudiante
-        estudianteExistente.setPrimerNombre(estudianteAActualizar.getPrimerNombre());
-        estudianteExistente.setSegundoNombre(estudianteAActualizar.getSegundoNombre());
-        estudianteExistente.setPrimerApellido(estudianteAActualizar.getPrimerApellido());
-        estudianteExistente.setSegundoApellido(estudianteAActualizar.getSegundoApellido());
-        estudianteExistente.setFechaNacimiento(estudianteAActualizar.getFechaNacimiento());
+       // Actualizar email
         estudianteExistente.setEmail(estudianteAActualizar.getEmail());
 
-        return estudianteRepository.save(estudianteExistente);
+        return estudianteExistente;
     }
 
+    @Transactional(readOnly = true)
     public Estudiante getEstudiante(Long id) {
         return estudianteRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Estudiante con id " + id + " no existe"));
