@@ -1,5 +1,6 @@
 package com.bootcamp.estudiante;
 
+import com.bootcamp.cuenta.CuentaBancaria;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -38,6 +39,14 @@ public class Estudiante {
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "id_cuenta",
+            referencedColumnName = "id_cuenta",
+            unique = true
+    )
+    private CuentaBancaria cuenta;
 
 
     public Estudiante() {
