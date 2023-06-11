@@ -1,6 +1,7 @@
 package com.bootcamp.estudiante;
 
 import com.bootcamp.cuenta.CuentaBancaria;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -48,7 +49,6 @@ public class Estudiante {
     )
     private CuentaBancaria cuenta;
 
-
     public Estudiante() {
 
     }
@@ -61,6 +61,14 @@ public class Estudiante {
         this.segundoApellido = segundoApellido;
         this.fechaNacimiento = fechaNacimiento;
         this.email = email;
+    }
+
+    public CuentaBancaria getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(CuentaBancaria cuenta) {
+        this.cuenta = cuenta;
     }
 
     public void setId(Long id) {

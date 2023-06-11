@@ -1,5 +1,7 @@
 package com.bootcamp.cuenta;
 
+import com.bootcamp.estudiante.Estudiante;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -25,6 +27,10 @@ public class CuentaBancaria {
 
     private String titular;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "cuenta")
+    private Estudiante estudiante;
+
     public CuentaBancaria() {
     }
 
@@ -33,6 +39,14 @@ public class CuentaBancaria {
         this.numeroCuenta = numeroCuenta;
         this.banco = banco;
         this.titular = titular;
+    }
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
     }
 
     public Long getId() {
