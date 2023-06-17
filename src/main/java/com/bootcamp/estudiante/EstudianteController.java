@@ -35,9 +35,7 @@ public class EstudianteController {
 
     @PostMapping
     public void createEstudiante(@RequestBody Estudiante e) {
-        System.out.println("controller create estudiante entered");
         estudianteService.createEstudiante(e);
-        System.out.println("controller create estudiante exited");
     }
 
 
