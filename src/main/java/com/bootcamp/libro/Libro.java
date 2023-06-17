@@ -1,6 +1,7 @@
 package com.bootcamp.libro;
 
 import com.bootcamp.estudiante.Estudiante;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -23,6 +24,7 @@ public class Libro {
 
     private String autor;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(
             name = "estudiante_id",
