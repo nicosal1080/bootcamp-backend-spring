@@ -77,7 +77,7 @@ public class EstudianteService {
         }
 
         // check si el email que se quiere actualizar ya existe
-        boolean emailExiste = estudianteRepository.existsByEmailAndIdIsNot(estudianteAActualizar.getEmail(), estudianteExistente.getId());
+        boolean emailExiste = estudianteRepository.existsByEmailAndIdIsNot(estudianteAActualizar.getEmail(), id);
         if (emailExiste) {
             throw new IllegalArgumentException("Email " + estudianteAActualizar.getEmail() + " ya esta registrado");
         }
