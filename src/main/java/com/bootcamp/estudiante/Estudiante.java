@@ -54,7 +54,7 @@ public class Estudiante {
     private CuentaBancaria cuenta;
 
     @OneToMany(mappedBy = "estudiante")
-    private List<Libro> libros;
+    private List<Libro> libros = new ArrayList<>();
 
     @ManyToMany(
             cascade = CascadeType.ALL
@@ -86,12 +86,32 @@ public class Estudiante {
         this.email = email;
     }
 
+    public List<Materia> getMaterias() {
+        return materias;
+    }
+
+    public void addMateria(Materia materia) {
+        if(!materias.contains(materia)) {
+            materias.add(materia);
+        }
+    }
+
+    public void removeMateria(Materia materia) {
+        materias.remove(materia);
+    }
+
     public List<Libro> getLibros() {
         return libros;
     }
 
-    public void setLibros(List<Libro> libros) {
-        this.libros = libros;
+    public void addLibro(Libro libro) {
+        if(!libros.contains(libro)) {
+            libros.add(libro);
+        }
+    }
+
+    public void removeLibro(Libro libro) {
+        libros.remove(libro);
     }
 
     public CuentaBancaria getCuenta() {

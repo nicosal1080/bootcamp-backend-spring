@@ -2,6 +2,7 @@ package com.bootcamp.estudiante;
 
 import com.bootcamp.libro.Libro;
 import com.bootcamp.libro.LibroRepository;
+import com.bootcamp.materia.Materia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -113,6 +114,15 @@ public class EstudianteService {
 
         libro.setEstudiante(estudianteExistente);
         libroRepository.save(libro);
+        return estudianteExistente;
+    }
+
+    public Estudiante agregarMateriaAEstudiante(Long estudianteId, Materia materia) {
+        // check si estudiante con ese id existe, si no botamos un Error
+        Estudiante estudianteExistente = estudianteRepository.findById(estudianteId)
+                .orElseThrow(() -> new NoSuchElementException("Estudiante con ese id no existe, id: " + estudianteId));
+
+        estudianteExistente.addMateria(materia);
         return estudianteExistente;
     }
 }
