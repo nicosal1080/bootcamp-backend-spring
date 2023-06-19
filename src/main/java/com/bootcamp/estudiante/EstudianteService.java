@@ -71,10 +71,12 @@ public class EstudianteService {
                 .orElseThrow(() -> new NoSuchElementException("Estudiante con ese id no existe, id: " + id));
 
         // Actualizar estudiante
-        estudianteExistente.setPrimerNombre(estudianteAActualizar.getPrimerNombre());
-        estudianteExistente.setSegundoNombre(estudianteAActualizar.getSegundoNombre());
-        estudianteExistente.setPrimerApellido(estudianteAActualizar.getPrimerApellido());
-        estudianteExistente.setSegundoApellido(estudianteAActualizar.getSegundoApellido());
+        Nombre nombre = new Nombre();
+        nombre.setPrimerNombre(estudianteAActualizar.getNombre().getPrimerNombre());
+        nombre.setSegundoNombre(estudianteAActualizar.getNombre().getSegundoNombre());
+        nombre.setPrimerApellido(estudianteAActualizar.getNombre().getPrimerApellido());
+        nombre.setSegundoApellido(estudianteAActualizar.getNombre().getSegundoApellido());
+        estudianteExistente.setNombre(nombre);
         estudianteExistente.setFechaNacimiento(estudianteAActualizar.getFechaNacimiento());
 
         // check si el email es valido
