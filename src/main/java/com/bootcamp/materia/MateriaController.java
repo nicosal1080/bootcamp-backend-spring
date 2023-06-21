@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,8 +30,9 @@ public class MateriaController {
     }
 
     @PostMapping
-    public Long createMateria(@RequestBody Materia materia) {
-        return materiaService.createMateria(materia);
+    public ResponseEntity<Long> createMateria(@RequestBody Materia materia) {
+        Long idMateria = materiaService.createMateria(materia);
+        return new ResponseEntity<>(idMateria, HttpStatus.CREATED);
     }
 
     @PutMapping("{materiaId}")
@@ -38,7 +41,8 @@ public class MateriaController {
     }
 
     @DeleteMapping("{materiaId}")
-    public void deleteMateria(@PathVariable Long materiaId) {
+    public ResponseEntity<?> deleteMateria(@PathVariable Long materiaId) {
         materiaService.deleteMateria(materiaId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
