@@ -48,8 +48,8 @@ public class EstudianteController {
     }
 
     @PostMapping
-    public void createEstudiante(@RequestBody Estudiante e) {
-        estudianteService.createEstudiante(e);
+    public Long createEstudiante(@RequestBody Estudiante e) {
+        return estudianteService.createEstudiante(e);
     }
 
 

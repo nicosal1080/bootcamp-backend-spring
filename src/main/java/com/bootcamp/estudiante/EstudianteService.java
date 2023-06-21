@@ -46,7 +46,7 @@ public class EstudianteService {
         return estudiantes;
     }
 
-    public void createEstudiante(Estudiante e) {
+    public Long createEstudiante(Estudiante e) {
         // check si el email es valido
         if(!checkValidezEmail(e.getEmail())) {
             throw new IllegalArgumentException("Email " + e.getEmail() + " no es valido");
@@ -58,7 +58,7 @@ public class EstudianteService {
             throw new IllegalArgumentException("Email " + e.getEmail() + " ya esta registrado");
         }
 
-        estudianteRepository.save(e);
+        return estudianteRepository.save(e).getId();
     }
 
     public void deleteEstudiante(Long estudianteId) {

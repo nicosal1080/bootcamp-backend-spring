@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "materia")
 public class Materia {
 
     @Id
@@ -19,8 +20,10 @@ public class Materia {
     )
     private Long id;
 
+    @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "creditos")
     private Integer creditos;
 
     public Materia() {
