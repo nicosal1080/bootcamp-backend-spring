@@ -1,7 +1,5 @@
 package com.bootcamp.estudiante;
 
-import com.bootcamp.libro.Libro;
-import com.bootcamp.materia.Materia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -67,13 +65,18 @@ public class EstudianteController {
         return estudianteService.updateEstudiante(estudianteId, estudiante);
     }
 
-    @PostMapping("{estudianteId}/libros")
-    public Estudiante agregarLibroAEstudiante(@PathVariable Long estudianteId, @RequestBody Libro libro) {
-        return estudianteService.agregarLibroAEstudiante(estudianteId, libro);
+    @PutMapping("{estudianteId}/libros/{libroId}")
+    public Estudiante agregarLibroAEstudiante(@PathVariable Long estudianteId, @PathVariable Long libroId) {
+        return estudianteService.agregarLibroAEstudiante(estudianteId, libroId);
     }
 
-    @PostMapping("{estudianteId}/materias")
-    public Estudiante agregarMateriaAEstudiante(@PathVariable Long estudianteId, @RequestBody Materia materia) {
-        return estudianteService.agregarMateriaAEstudiante(estudianteId, materia);
+    @PutMapping("{estudianteId}/materias/{materiaId}")
+    public Estudiante agregarMateriaAEstudiante(@PathVariable Long estudianteId, @PathVariable Long materiaId) {
+        return estudianteService.agregarMateriaAEstudiante(estudianteId, materiaId);
+    }
+
+    @PutMapping("{estudianteId}/cuentas/{cuentaId}")
+    public Estudiante agregarCuentaAEstudiante(@PathVariable Long estudianteId, @PathVariable Long cuentaId) {
+        return estudianteService.agregarCuentaAEstudiante(estudianteId, cuentaId);
     }
 }

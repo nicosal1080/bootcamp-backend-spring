@@ -14,8 +14,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authz ->
-                authz.anyRequest().authenticated() // todas las solicitudes entrantes deben estar autenticadas
-        ).httpBasic(Customizer.withDefaults());
+                        authz.anyRequest().authenticated() // todas las solicitudes entrantes deben estar autenticadas
+                ).csrf(csrfConfig -> csrfConfig.disable())
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }

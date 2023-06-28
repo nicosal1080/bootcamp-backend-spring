@@ -3,7 +3,6 @@ package com.bootcamp.estudiante;
 import com.bootcamp.cuenta.CuentaBancaria;
 import com.bootcamp.libro.Libro;
 import com.bootcamp.materia.Materia;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -98,11 +97,13 @@ public class Estudiante {
     public void addLibro(Libro libro) {
         if(!libros.contains(libro)) {
             libros.add(libro);
+            libro.setEstudiante(this);
         }
     }
 
     public void removeLibro(Libro libro) {
         libros.remove(libro);
+        libro.setEstudiante(null);
     }
 
     public CuentaBancaria getCuenta() {

@@ -1,8 +1,11 @@
 package com.bootcamp.estudiante;
 
+import com.bootcamp.cuenta.CuentaBancaria;
+import com.bootcamp.cuenta.CuentaBancariaRepository;
 import com.bootcamp.libro.Libro;
 import com.bootcamp.libro.LibroRepository;
 import com.bootcamp.materia.Materia;
+import com.bootcamp.materia.MateriaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +23,20 @@ import java.util.regex.Pattern;
 public class EstudianteService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EstudianteService.class);
-    private EstudianteRepository estudianteRepository;
+    private final EstudianteRepository estudianteRepository;
     private final LibroRepository libroRepository;
+    private final MateriaRepository materiaRepository;
+    private final CuentaBancariaRepository cuentaBancariaRepository;
 
     @Autowired
     public EstudianteService(EstudianteRepository estudianteRepository,
-                             LibroRepository libroRepository) {
+                             LibroRepository libroRepository,
+                             MateriaRepository materiaRepository,
+                             CuentaBancariaRepository cuentaBancariaRepository) {
         this.estudianteRepository = estudianteRepository;
         this.libroRepository = libroRepository;
+        this.materiaRepository = materiaRepository;
+        this.cuentaBancariaRepository = cuentaBancariaRepository;
     }
 
     @Transactional(readOnly = true)
@@ -124,22 +133,44 @@ public class EstudianteService {
         ).asPredicate().test(email);
     }
 
-    public Estudiante agregarLibroAEstudiante(Long estudianteId, Libro libro) {
+    public Estudiante agregarLibroAEstudiante(Long estudianteId, Long libroId) {
         // check si estudiante con ese id existe, si no botamos un Error
         Estudiante estudianteExistente = estudianteRepository.findById(estudianteId)
                 .orElseThrow(() -> new NoSuchElementException("Estudiante con ese id no existe, id: " + estudianteId));
 
-        libro.setEstudiante(estudianteExistente);
-        libroRepository.save(libro);
+        // check si libro con ese id existe, si no botamos un Error
+        Libro libroExistente = libroRepository.findById(libroId)
+                .orElseThrow(() -> new NoSuchElementException("Libro con ese id no existe, id: " + libroId));
+
+        libroExistente.setEstudiante(estudianteExistente);
+//        estudianteExistente.addLibro(libroExistente);
         return estudianteExistente;
     }
 
-    public Estudiante agregarMateriaAEstudiante(Long estudianteId, Materia materia) {
+    public Estudiante agregarMateriaAEstudiante(Long estudianteId, Long materiaId) {
         // check si estudiante con ese id existe, si no botamos un Error
         Estudiante estudianteExistente = estudianteRepository.findById(estudianteId)
                 .orElseThrow(() -> new NoSuchElementException("Estudiante con ese id no existe, id: " + estudianteId));
 
-        estudianteExistente.addMateria(materia);
+        // check si materia con ese id existe, si no botamos un Error
+        Materia materiaExistente = materiaRepository.findById(materiaId)
+                .orElseThrow(() -> new NoSuchElementException("Materia con ese id no existe, id: " + materiaId));
+
+        estudianteExistente.addMateria(materiaExistente);
+        return estudianteExistente;
+    }
+
+    public Estudiante agregarCuentaAEstudiante(Long estudianteId, Long cuentaId) {
+
+        // check si estudiante con ese id existe, si no botamos un Error
+        Estudiante estudianteExistente = estudianteRepository.findById(estudianteId)
+                .orElseThrow(() -> new NoSuchElementException("Estudiante con ese id no existe, id: " + estudianteId));
+
+        // check si cuenta con ese id existe, si no botamos un Error
+        CuentaBancaria cuentaExistente = cuentaBancariaRepository.findById(cuentaId)
+                .orElseThrow(() -> new NoSuchElementException("Cuenta con ese id no existe, id: " + cuentaId));
+
+        estudianteExistente.setCuenta(cuentaExistente);
         return estudianteExistente;
     }
 }
