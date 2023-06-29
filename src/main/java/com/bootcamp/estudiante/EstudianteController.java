@@ -6,12 +6,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/estudiantes")
+@PreAuthorize("hasAnyRole('COOR', 'ADMIN')")
 public class EstudianteController {
 
     private EstudianteService estudianteService;
@@ -22,6 +24,7 @@ public class EstudianteController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('BIBL','COOR', 'ADMIN')")
     public List<Estudiante> getEstudiantes(
             @RequestParam(value = "primerNombre", required = false) String primerNombre,
             @RequestParam(value = "primerApellido", required = false) String primerApellido
@@ -35,6 +38,7 @@ public class EstudianteController {
 
     // este metodo podria remplazar el que nos retribuye la lista de estudiantes
     @GetMapping("/paged")
+    @PreAuthorize("hasAnyRole('BIBL','COOR', 'ADMIN')")
     public Page<Estudiante> getEstudiantes(@PageableDefault(size = 3, page = 0) Pageable pageable) {
         // size = tamano de la pagina
         // page = numero de pagina
@@ -43,6 +47,7 @@ public class EstudianteController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('BIBL','COOR', 'ADMIN')")
     public Estudiante getEstudiante(@PathVariable Long id) {
         return estudianteService.getEstudiante(id);
     }
@@ -66,6 +71,7 @@ public class EstudianteController {
     }
 
     @PutMapping("{estudianteId}/libros/{libroId}")
+    @PreAuthorize("hasAnyRole('BIBL', 'ADMIN')")
     public Estudiante agregarLibroAEstudiante(@PathVariable Long estudianteId, @PathVariable Long libroId) {
         return estudianteService.agregarLibroAEstudiante(estudianteId, libroId);
     }
@@ -76,6 +82,7 @@ public class EstudianteController {
     }
 
     @PutMapping("{estudianteId}/cuentas/{cuentaId}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public Estudiante agregarCuentaAEstudiante(@PathVariable Long estudianteId, @PathVariable Long cuentaId) {
         return estudianteService.agregarCuentaAEstudiante(estudianteId, cuentaId);
     }

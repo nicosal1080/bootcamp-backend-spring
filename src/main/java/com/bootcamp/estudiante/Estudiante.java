@@ -106,8 +106,8 @@ public class Estudiante {
         libro.setEstudiante(null);
     }
 
-    public CuentaBancaria getCuenta() {
-        return cuenta;
+    public Long getCuenta() {
+        return cuenta.getId();
     }
 
     public void setCuenta(CuentaBancaria cuenta) {
