@@ -1,4 +1,4 @@
-# Bootcamp-backend-spring
+# Bootcamp-Backend ----- Spring Boot
 
 En este repositorio podran hacer el checkout de cada semana de la parte de spring de la fase 2 del bootcamp.<br/>
 La idea es que si terminan la semana y quieren tener la version del codigo en ese punto, pueden hacer el checkout de la "branch"/rama correspondiente, para esto tienen que tener git instalado localmente.
