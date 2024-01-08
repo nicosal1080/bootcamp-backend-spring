@@ -5,8 +5,8 @@ La idea es que si terminan la semana y quieren tener la version del codigo en es
 
 ## Checkout de las branches
 
-- `git checkout master` - la branch master es la ultima version de la aplicacion
-- `git checkout semana-6`
+- `git checkout master` - La branch master es la ultima version de la aplicacion
+- `git checkout semana-6` - La semana 6 de la fase 2 es la primera semana de Spring Boot
 - `git checkout semana-7`
 - `git checkout semana-8`
 - `git checkout semana-9`
