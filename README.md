@@ -6,11 +6,8 @@ La idea es que si terminan la semana y quieren tener la version del codigo en es
 ## Checkout de las branches
 
 - `git checkout master` - la branch master es la ultima version de la aplicacion
-- `git checkout section-1`
-- `git checkout section-2`
-- `git checkout section-3`
-- `git checkout section-4`
-- `git checkout section-5`
-- `git checkout section-6`
-- `git checkout section-7`
-- `git checkout section-8`
+- `git checkout semana-6`
+- `git checkout semana-7`
+- `git checkout semana-8`
+- `git checkout semana-9`
+- `git checkout semana-10`
